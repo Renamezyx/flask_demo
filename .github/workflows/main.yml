@@ -31,8 +31,8 @@ jobs:
           script: |
             cd ${{ secrets.TARGET_DIR }}
             # 停止并删除旧容器（若存在）
-            docker stop lark-bot-app || true
-            docker rm lark-bot-app || true
+            docker stop flask-demo || true
+            docker rm flask-demo || true
             # 按 Dockerfile 构建镜像，命名 flask-demo
             docker build -t flask-demo .
             # 启动容器，后台运行，映射端口
