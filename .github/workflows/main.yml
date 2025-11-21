@@ -1,1 +1,39 @@
+name: 使用 Dockerfile 在远程服务器构建并部署
 
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v3
+
+      - name: 写入 SSH 私钥
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: 将代码传输到远程服务器
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}
+
+      - name: 在远程服务器上构建并运行 Docker
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.TARGET_DIR }}
+            # 停止并删除旧容器（若存在）
+            docker stop lark-bot-app || true
+            docker rm lark-bot-app || true
+            # 按 Dockerfile 构建镜像，命名 flask-demo
+            docker build -t flask-demo .
+            # 启动容器，后台运行，映射端口
+            docker run -d -p 5004:5004 --name flask-demo flask-demo

@@ -45,4 +45,4 @@ def health():
 
 if __name__ == "__main__":
     # 仅开发环境使用，生产建议用 gunicorn + Nginx
-    app.run(host="0.0.0.0", port=9000, debug=False)
+    app.run(host="0.0.0.0", port=5004, debug=False)
