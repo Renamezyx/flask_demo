@@ -3,10 +3,10 @@ import aiohttp
 import time
 import statistics
 
-URL = "http://120.79.202.59/api/fast"
+URL = "http://120.79.202.59/api/io"
 
-CONCURRENCY = 1500  # 并发数
-REQUESTS = 120000  # 总请求数
+CONCURRENCY = 100  # 并发数
+REQUESTS = 1000 # 总请求数
 
 success = 0
 fail = 0

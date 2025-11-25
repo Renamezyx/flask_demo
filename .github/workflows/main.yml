@@ -36,4 +36,9 @@ jobs:
             # 按 Dockerfile 构建镜像，命名 flask-demo
             docker build -t flask-demo .
             # 启动容器，后台运行，映射端口
-            docker run -d -p 5004:5004 -v /home/logs/flask_demo:/app/logs --name flask-demo flask-demo
+            docker run -d \
+            -p 5004:5004 \
+            -v /home/logs/flask_demo:/app/logs \
+            -v /etc/localtime:/etc/localtime:ro \
+            -v /etc/timezone:/etc/timezone:ro \
+            --name flask-demo flask-demo
