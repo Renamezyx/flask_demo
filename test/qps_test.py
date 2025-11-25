@@ -6,7 +6,7 @@ import statistics
 URL = "http://120.79.202.59/api/io"
 
 CONCURRENCY = 100  # 并发数
-REQUESTS = 1000 # 总请求数
+REQUESTS = 100 # 总请求数
 
 success = 0
 fail = 0

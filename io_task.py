@@ -3,7 +3,7 @@ import time
 
 
 def io_heavy_task(size_mb):
-    filename = f"/tmp/io_test_{int(time.time())}.dat"
+    filename = f"/tmp/io_test_{int(time.time() * 1000)}.dat"
     data = b"0" * 1024 * 1024  # 1 MB
 
     with open(filename, "wb") as f:
